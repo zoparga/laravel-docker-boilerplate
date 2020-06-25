@@ -29,11 +29,23 @@ RUN apk update && apk add --no-cache $PHPIZE_DEPS \
     php7-gd \
     php7-dom \
     php7-session \
-    php7-zlib
+    php7-zlib \
+    php7-soap 
 
 # Install extensions
 RUN docker-php-ext-install pdo pdo_mysql
 RUN docker-php-ext-enable pdo_mysql
+
+#Added to php-ext-gd requirement
+RUN apk add libpng libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev gd && docker-php-ext-install gd
+
+#RUN docker-php-ext-install gd
+#RUN docker-php-ext-enable gd
+
+# Added to php-ext-soap requirement 
+RUN apk add libxml2-dev && docker-php-ext-install soap
+
+RUN docker-php-ext-enable soap
 
 # install xdebug and enable it if the development environment is local
 RUN if [ $APP_ENV = "local" ]; then \
