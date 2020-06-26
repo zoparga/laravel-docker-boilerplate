@@ -48,12 +48,25 @@ services:
    ports:
      - 33062:3306
    volumes:
-     - database-volume:/var/lib/mysql
+     - ./mysqldata:/var/lib/mysql
+     - ./mysql/my.cnf:/etc/my.cnf
    depends_on:
      - app
    networks:
      - app-network
-
+  
+ phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+        - 8289:80
+    environment:
+        PMA_HOST: database
+        MYSQL_USER: ${MYSQL_PASSWORD}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+          - app-network
+    
 # Docker Volumes
 volumes:
  database-volume:
