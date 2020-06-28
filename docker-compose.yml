@@ -55,17 +55,17 @@ services:
    networks:
      - app-network
   
- phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    ports:
-        - 8289:80
-    environment:
-        PMA_HOST: database
-        MYSQL_USER: ${MYSQL_PASSWORD}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    networks:
-          - app-network
+ #phpmyadmin:
+ #   image: phpmyadmin/phpmyadmin
+ #   ports:
+ #       - 8289:80
+ #   environment:
+ #       PMA_HOST: database
+ #       MYSQL_USER: ${MYSQL_PASSWORD}
+ #       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+ #       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+ #   networks:
+ #         - app-network
     
 # Docker Volumes
 volumes:

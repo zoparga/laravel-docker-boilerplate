@@ -47,6 +47,10 @@ RUN apk add libxml2-dev && docker-php-ext-install soap
 
 RUN docker-php-ext-enable soap
 
+# RUN php memory limit to -1
+RUN cd /usr/local/etc/php/conf.d/ && \
+  echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+
 # install xdebug and enable it if the development environment is local
 RUN if [ $APP_ENV = "local" ]; then \
     pecl install xdebug; \
