@@ -39,6 +39,8 @@ RUN docker-php-ext-enable pdo_mysql
 #Added to php-ext-gd requirement
 RUN apk add libpng libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev gd && docker-php-ext-install gd
 
+RUN docker-php-ext-install exif
+RUN docker-php-ext-enable exif
 #RUN docker-php-ext-install gd
 #RUN docker-php-ext-enable gd
 
@@ -47,15 +49,21 @@ RUN apk add libxml2-dev && docker-php-ext-install soap
 
 RUN docker-php-ext-enable soap
 
+# imagick
+RUN apk add --update --no-cache autoconf g++ imagemagick-dev libtool make pcre-dev \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
+    && apk del autoconf g++ libtool make pcre-dev
+
 # RUN php memory limit to -1
 RUN cd /usr/local/etc/php/conf.d/ && \
   echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
 
 # install xdebug and enable it if the development environment is local
-RUN if [ $APP_ENV = "local" ]; then \
-    pecl install xdebug; \
-    docker-php-ext-enable xdebug; \
-    fi;
+#RUN if [ $APP_ENV = "local" ]; then \
+#    pecl install xdebug; \
+#    docker-php-ext-enable xdebug; \
+#    fi;
 
 # Install PHP Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
