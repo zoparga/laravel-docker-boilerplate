@@ -30,7 +30,10 @@ RUN apk update && apk add --no-cache $PHPIZE_DEPS \
     php7-dom \
     php7-session \
     php7-zlib \
-    php7-soap 
+    php7-soap \
+    graphviz \
+    libzip-dev \
+    zip
 
 # Install extensions
 RUN docker-php-ext-install pdo pdo_mysql
@@ -48,6 +51,10 @@ RUN docker-php-ext-enable exif
 RUN apk add libxml2-dev && docker-php-ext-install soap
 
 RUN docker-php-ext-enable soap
+
+#install some base extensions
+RUN docker-php-ext-install zip
+
 
 # imagick
 RUN apk add --update --no-cache autoconf g++ imagemagick-dev libtool make pcre-dev \
