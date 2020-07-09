@@ -6,7 +6,21 @@
 - in terminal you can do everything like
  - composer create-project --prefer-dist laravel/laravel .
 
-### Restore mysql from sql file placed in root folder
-cat dump-agrohof_sql-202007060414.sql | docker exec -i AGROHOF_database /usr/bin/mysql -u root --password=root_pass database
 
-so cat {use the dumped sql file} | docker exec -i {container name} /usr/bin/mysql -u {root user} --password={root_password} {database name} 
+--------------------------------------
+### TO RESTORE MYSQL DB IN CONTAINER MYSQL
+
+place mysql backup (.sql ) file to ./mysql-backup folder
+
+### enter dataase container with the following command:
+docker exec -it AGROHOF_database bash
+
+### when you are in, run the following commands:
+- cd /home/mysql-backup
+
+- mysql -u root -p $MYSQL_DATABASE < SQLFILENAME-which-YOU-put.sql
+
+- enter root password
+---------------------------------------
+
+

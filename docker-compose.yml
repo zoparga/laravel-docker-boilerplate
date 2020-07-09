@@ -39,6 +39,7 @@ services:
 
  database:
    image: mysql:5.7
+   command: --max_allowed_packet=2G      # Set max_allowed_packet to 256M (or any other value)
    container_name: ${APP_NAME}_database
    environment:
      MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -49,7 +50,8 @@ services:
      - 33062:3306
    volumes:
      - ./mysqldata:/var/lib/mysql
-     - ./mysql/my.cnf:/etc/my.cnf
+#     - ./mysql/my.cnf:/etc/mysql/my.cnf
+     - ./mysql-backup:/home/mysql-backup
    depends_on:
      - app
    networks:
