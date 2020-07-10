@@ -33,7 +33,9 @@ RUN apk update && apk add --no-cache $PHPIZE_DEPS \
     php7-soap \
     graphviz \
     libzip-dev \
-    zip
+    zip \
+    icu-dev \
+    icu-libs
 
 # Install extensions
 RUN docker-php-ext-install pdo pdo_mysql
@@ -55,7 +57,9 @@ RUN docker-php-ext-enable soap
 #install some base extensions
 RUN docker-php-ext-install zip
 
-
+#install intl package
+RUN docker-php-ext-install intl
+RUN docker-php-ext-enable intl
 # imagick
 RUN apk add --update --no-cache autoconf g++ imagemagick-dev libtool make pcre-dev \
     && pecl install imagick \

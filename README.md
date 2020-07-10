@@ -7,6 +7,23 @@
  - composer create-project --prefer-dist laravel/laravel .
 
 
+
+
+---------------------------------------
+
+### APP start or update
+
+docker exec -it AGROHOF_app bash
+
+git pull
+
+composer install
+
+php artisan migrate
+
+
+---------------------------------------
+
 --------------------------------------
 ### TO RESTORE MYSQL DB IN CONTAINER MYSQL
 
@@ -22,5 +39,3 @@ docker exec -it AGROHOF_database bash
 
 - enter root password
 ---------------------------------------
-
-
