@@ -35,7 +35,8 @@ RUN apk update && apk add --no-cache $PHPIZE_DEPS \
     libzip-dev \
     zip \
     icu-dev \
-    icu-libs
+    icu-libs \
+    mysql-client
 
 # Install extensions
 RUN docker-php-ext-install pdo pdo_mysql
@@ -60,6 +61,7 @@ RUN docker-php-ext-install zip
 #install intl package
 RUN docker-php-ext-install intl
 RUN docker-php-ext-enable intl
+
 # imagick
 RUN apk add --update --no-cache autoconf g++ imagemagick-dev libtool make pcre-dev \
     && pecl install imagick \
