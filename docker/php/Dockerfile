@@ -45,6 +45,9 @@ RUN docker-php-ext-enable pdo_mysql
 #Added to php-ext-gd requirement
 RUN apk add libpng libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev gd && docker-php-ext-install gd
 
+RUN docker-php-ext-configure gd --with-jpeg
+RUN docker-php-ext-install -j$(nproc) gd
+
 RUN docker-php-ext-install exif
 RUN docker-php-ext-enable exif
 #RUN docker-php-ext-install gd

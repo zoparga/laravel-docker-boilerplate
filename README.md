@@ -21,7 +21,9 @@ composer install
 
 php artisan migrate
 
-
+run:
+php artisan db:seed --class=PermissionsTableSeeder
+php artisan db:seed --class=PermissionRoleTableSeeder
 ---------------------------------------
 
 --------------------------------------
@@ -39,3 +41,4 @@ docker exec -it AGROHOF_database bash
 
 - enter root password
 ---------------------------------------
+
