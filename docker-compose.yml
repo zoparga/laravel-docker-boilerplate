@@ -16,7 +16,7 @@ services:
      - ./docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
    env_file: .env
    ports:
-     - 9006:9001
+     - ${APP_PHP_PORT}:9001
    networks:
      - app-network
 
@@ -30,8 +30,8 @@ services:
      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
      - ./docker/nginx/ssl/:/etc/nginx/ssl/
    ports:
-     - 8189:80
-     - 4431:443
+     - ${NGINX_80}:80
+     - ${NGINX_443}:443
    depends_on:
      - app
    networks:
@@ -47,7 +47,8 @@ services:
      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
    ports:
-     - 33062:3306
+     - ${MYSQL_PORT}:3306
+   restart: unless-stopped
    volumes:
      - ./mysqldata:/var/lib/mysql
 #     - ./mysql/my.cnf:/etc/mysql/my.cnf
