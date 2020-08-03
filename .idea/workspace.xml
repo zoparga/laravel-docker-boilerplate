@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="48842b18-5fab-49b6-9f19-77655d42afcb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/www/app/Imports/Products/ProductsVendibleUsedToWarehouseImport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www" beforeDir="false" afterPath="$PROJECT_DIR$/www" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/app/Http/Controllers/Admin/Utils/CsvImporterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/app/Http/Controllers/Admin/Utils/CsvImporterController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/app/Http/Controllers/Admin/Warehouses/WarehouseTotalController.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/app/Http/Controllers/Admin/Warehouses/WarehouseTotalController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/app/Imports/Products/ProductsToWarehouseImport.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/app/Imports/Products/ProductsToWarehouseImport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/resources/views/admin/invoices/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/resources/views/admin/invoices/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/resources/views/admin/utils/csv_import_product.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/resources/views/admin/utils/csv_import_product.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/routes/web.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/www" />
+  </component>
+  <component name="ProjectId" id="1fS6M26CgJXaNhPTbht2vxB0etl" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/www/app/Imports/Products" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/www/app/Imports/Products" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="48842b18-5fab-49b6-9f19-77655d42afcb" name="Default Changelist" comment="" />
+      <created>1596199095075</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1596199095075</updated>
+      <workItem from="1596199096463" duration="305000" />
+      <workItem from="1596434236073" duration="3394000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1905" y="258" width="670" height="676" key="search.everywhere.popup" timestamp="1596437766236">
+      <screen x="1280" y="23" width="1920" height="1057" />
+    </state>
+    <state x="1905" y="258" width="670" height="676" key="search.everywhere.popup/0.23.1280.705/1280.23.1920.1057@1280.23.1920.1057" timestamp="1596436913767" />
+    <state x="1905" y="258" width="670" height="676" key="search.everywhere.popup/0.23.1280.706/1280.23.1920.1057@1280.23.1920.1057" timestamp="1596437766236" />
+  </component>
+</project>
