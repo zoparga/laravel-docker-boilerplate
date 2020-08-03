@@ -51,6 +51,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/www/app/Imports/Products" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -66,7 +67,7 @@
       <option name="presentableId" value="Default" />
       <updated>1596199095075</updated>
       <workItem from="1596199096463" duration="305000" />
-      <workItem from="1596434236073" duration="3394000" />
+      <workItem from="1596434236073" duration="3728000" />
     </task>
     <servers />
   </component>
