@@ -1,3 +1,5 @@
 ~
 /mysqldata/*
 /mysql-backup
+.idea
+.DS_Store

@@ -42,3 +42,12 @@ docker exec -it AGROHOF_database bash
 - enter root password
 ---------------------------------------
 
+### Run Node container
+docker exec -it AGROHOF_app bash
+
+run the basic npm commands
+
+npm run watch
+npm run dev
+npm run prod
+

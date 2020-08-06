@@ -71,6 +71,9 @@ RUN apk add --update --no-cache autoconf g++ imagemagick-dev libtool make pcre-d
     && docker-php-ext-enable imagick \
     && apk del autoconf g++ libtool make pcre-dev
 
+# Add node to container
+RUN apk add --update nodejs nodejs-npm
+
 # RUN php memory limit to -1
 RUN cd /usr/local/etc/php/conf.d/ && \
   echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
@@ -98,6 +101,8 @@ USER www-data
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
+
+
 
 # Run php-fpm
 CMD ["php-fpm"]

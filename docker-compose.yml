@@ -57,7 +57,17 @@ services:
      - app
    networks:
      - app-network
-  
+
+# npm:
+#  image: node:latest
+#  container_name: ${APP_NAME}_npm
+#  volumes:
+#    - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}
+#  working_dir: ${REMOTE_WORKING_DIR}
+#  entrypoint: ['npm', '--no-bin-links']
+#  networks:
+#     - app-network
+
  #phpmyadmin:
  #   image: phpmyadmin/phpmyadmin
  #   ports:
