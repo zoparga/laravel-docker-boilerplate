@@ -57,7 +57,7 @@ services:
    networks:
      - app-network
 
-  mailhog:
+ mailhog:
    container_name: ${APP_NAME}_mailhog
    image:  mailhog/mailhog:latest
    ports:
