@@ -51,22 +51,23 @@ services:
    restart: unless-stopped
    volumes:
      - ./mysqldata:/var/lib/mysql
-#     - ./mysql/my.cnf:/etc/mysql/my.cnf
      - ./mysql-backup:/home/mysql-backup
    depends_on:
      - app
    networks:
      - app-network
 
-# npm:
-#  image: node:latest
-#  container_name: ${APP_NAME}_npm
-#  volumes:
-#    - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}
-#  working_dir: ${REMOTE_WORKING_DIR}
-#  entrypoint: ['npm', '--no-bin-links']
-#  networks:
-#     - app-network
+  mailhog:
+   container_name: ${APP_NAME}_mailhog
+   image:  mailhog/mailhog:latest
+   ports:
+     - ${MAILHOG_PUBLIC_PORT}:8025
+     - ${MAILHOG_MAIL_PORT}:1025
+   restart: unless-stopped
+   depends_on:
+     - app
+   networks:
+     - app-network
 
  #phpmyadmin:
  #   image: phpmyadmin/phpmyadmin
