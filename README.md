@@ -13,7 +13,7 @@
 
 ### APP start or update
 
-docker exec -it AGROHOF_app bash
+docker exec -it ....._app bash
 
 git pull
 
@@ -32,7 +32,7 @@ php artisan db:seed --class=PermissionRoleTableSeeder
 place mysql backup (.sql ) file to ./mysql-backup folder
 
 ### enter dataase container with the following command:
-docker exec -it AGROHOF_database bash
+docker exec -it ...._database bash
 
 ### when you are in, run the following commands:
 - cd /home/mysql-backup
@@ -43,7 +43,7 @@ docker exec -it AGROHOF_database bash
 ---------------------------------------
 
 ### Run Node container
-docker exec -it AGROHOF_app bash
+docker exec -it ...._app bash
 
 run the basic npm commands
 
