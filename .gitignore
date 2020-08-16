@@ -1,4 +1,5 @@
 ~
+.env
 /mysqldata/*
 /mysql-backup
 .idea
