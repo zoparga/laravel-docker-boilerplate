@@ -12,8 +12,9 @@ services:
    container_name: ${APP_NAME}_app
    restart: unless-stopped
    volumes:
-     - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}
+     - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}:delegated
      - ./docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+     - ./docker/php/config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:delegated
    env_file: .env
    ports:
      - ${APP_PHP_PORT}:9001
@@ -25,10 +26,10 @@ services:
    container_name: ${APP_NAME}_nginx
    restart: unless-stopped
    volumes:
-     - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}
-     - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-     - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
-     - ./docker/nginx/ssl/:/etc/nginx/ssl/
+     - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}:delegated
+     - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:delegated
+     - ./docker/nginx/conf.d/:/etc/nginx/conf.d/:delegated
+     - ./docker/nginx/ssl/:/etc/nginx/ssl/:delegated
    ports:
      - ${NGINX_80}:80
      - ${NGINX_443}:443
@@ -50,8 +51,8 @@ services:
      - ${MYSQL_PORT}:3306
    restart: unless-stopped
    volumes:
-     - ./mysqldata:/var/lib/mysql
-     - ./mysql-backup:/home/mysql-backup
+     - ./mysqldata:/var/lib/mysql:delegated
+     - ./mysql-backup:/home/mysql-backup:delegated
    depends_on:
      - app
    networks:
@@ -80,7 +81,7 @@ services:
  #       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
  #   networks:
  #         - app-network
-    
+
 # Docker Volumes
 volumes:
  database-volume:
