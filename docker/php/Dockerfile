@@ -104,6 +104,12 @@ RUN rm -rf /var/cache/apk/*
 # Add UID '1000' to www-data
 RUN apk add shadow && usermod -u 1000 www-data && groupmod -g 1000 www-data
 
+# Set proper timezone
+RUN apk --update add tzdata && \
+  cp /usr/share/zoneinfo/Europe/Budapest /etc/localtime && echo Europe/Budapest > /etc/timezone && \
+  apk del tzdata
+
+
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . $REMOTE_WORKING_DIR
 
