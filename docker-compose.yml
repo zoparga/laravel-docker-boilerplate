@@ -39,7 +39,7 @@ services:
      - app-network
 
  database:
-   image: mysql:5.7
+   image: mysql:${MYSQL_VERSION}
    command: --max_allowed_packet=2G      # Set max_allowed_packet to 256M (or any other value)
    container_name: ${APP_NAME}_database
    environment:
