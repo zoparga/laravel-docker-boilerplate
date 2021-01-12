@@ -4,7 +4,7 @@ services:
  # App php-fpm service
  app:
    build:
-     context: ./docker/php
+     image: zoparga/php74-aio:latest
      args:
        APP_ENV: ${APP_ENV}
        PHP_VERSION: ${PHP_VERSION}
@@ -39,7 +39,7 @@ services:
      - app-network
 
  database:
-   image: mysql:5.7
+   image: mysql:${MYSQL_VERSION}
    command: --max_allowed_packet=2G      # Set max_allowed_packet to 256M (or any other value)
    container_name: ${APP_NAME}_database
    environment:
@@ -57,6 +57,18 @@ services:
      - app
    networks:
      - app-network
+
+ redis:
+   image: redis:${REDIS_VERSION}
+   container_name: ${APP_NAME}_redis
+   expose:
+      - 6379
+   restart: unless-stopped
+   depends_on:
+     - app
+   networks:
+     - app-network
+
 
  mailhog:
    container_name: ${APP_NAME}_mailhog
