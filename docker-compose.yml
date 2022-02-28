@@ -3,13 +3,13 @@ version: "3"
 services:
 # App php-fpm service
   app:
-    build:
-      context: ./docker/php
-      args:
-        APP_ENV: ${APP_ENV}
-        PHP_VERSION: ${PHP_VERSION}
-        REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
-    #image: zoparga/php74-aio:0.7
+    # build:
+    #   context: ./docker/php
+    #   args:
+    #     APP_ENV: ${APP_ENV}
+    #     PHP_VERSION: ${PHP_VERSION}
+    #     REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
+    image: zoparga/php8-aio:latest
     container_name: ${APP_NAME}_app
     restart: unless-stopped
     volumes:
