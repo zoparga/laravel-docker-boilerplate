@@ -3,6 +3,7 @@ version: "3"
 services:
 # App php-fpm service
   app:
+    # platform: linux/x86_64
     # build:
     #   context: ./docker/php
     #   args:
