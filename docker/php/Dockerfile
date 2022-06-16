@@ -110,8 +110,23 @@ RUN apk add shadow && usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN apk --update add tzdata && \
  cp /usr/share/zoneinfo/Europe/Budapest /etc/localtime && echo Europe/Budapest > /etc/timezone && \
  apk del tzdata
+
+
+RUN apk add libreoffice
+
+RUN apk --no-cache add msttcorefonts-installer fontconfig && \
+    update-ms-fonts && \
+    fc-cache -f
  
- 
+# RUN set -ex \ 
+#    && apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS imagemagick-dev libtool \
+#    //&& export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" \ 
+#    && pecl install imagick-3.4.3 \
+#    && docker-php-ext-enable imagick \ && apk add --no-cache --virtual .imagick-runtime-deps imagemagick \ 
+#    && apk del .phpize-deps
+RUN apk --no-cache add php8-pecl-imagick
+
+
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . $REMOTE_WORKING_DIR
  
