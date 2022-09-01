@@ -1,53 +1,67 @@
-# pappz-laravel-docker
 # Simple docker for laravel
 
-- docker-compose exec app bash
+Follow these steps:
 
-- in terminal you can do everything like
- - composer create-project --prefer-dist laravel/laravel .
-
+- clone this repository
+- enter this project directory
+- run `cp .env.example .env`
+- run `docker-compose up -d`
+- wait a few minutes
+- enter the app container, run `docker exec -it base_app bash`
+// ------ FROM THIS STEP YOU ARE INSIDE THE CONTAINER
+- clone the laravel project repository
+- follow the baseic laravel install steps
+    - run `composer install`
+    - run `cp .env.example .env`
+    - modify .env file
+        BE CAREFUL, YOU NEED TO CHANGE THE FOLLOWING LINES (PROVIDED THE PROPER VALUES)
+        - APP_URL=http://localhost:8089
+        - DB_CONNECTION=mysql
+        - DB_HOST=database
+        - DB_PORT=3306
+        - DB_DATABASE=database
+        - DB_USERNAME=user
+        - DB_PASSWORD=password
+    - run `php aritsan migrate --seed`
+    - run `php artisan key:generate`
+    - npm install
+    - npm run dev
+- open browser, type `http://localhost:8089`
+- 🥳✌️
 
 
 
 ---------------------------------------
 
-### APP start or update
+# Ports, don't block them!
 
-docker exec -it ....._app bash
-
-git pull
-
-composer install
-
-php artisan migrate
-
-run:
-php artisan db:seed --class=PermissionsTableSeeder
-php artisan db:seed --class=PermissionRoleTableSeeder
----------------------------------------
+APP_PHP_PORT=9009
+NGINX_80=8089
+NGINX_443=4439
+MYSQL_PORT=33069
 
 --------------------------------------
+
+# MySQL creditentials
+
+MYSQL_DATABASE=database
+MYSQL_USER=user
+MYSQL_PASSWORD=password
+MYSQL_ROOT_PASSWORD=root_pass
+
+--------------------------------------
+
 ### TO RESTORE MYSQL DB IN CONTAINER MYSQL
 
-place mysql backup (.sql ) file to ./mysql-backup folder
+- place mysql backup (.sql ) file to ./mysql-backup folder
+- docker exec -it [APP_NAME]_database bash
 
-### enter dataase container with the following command:
-docker exec -it ...._database bash
+When you are in, run the following commands:
 
-### when you are in, run the following commands:
 - cd /home/mysql-backup
-
-- mysql -u root -p $MYSQL_DATABASE < SQLFILENAME-which-YOU-put.sql
-
-- enter root password
+- mysql -u root -p $MYSQL_DATABASE < SQLFILENAME-YOU-COPIED.sql
+- enter root password (default is: root_pass)
+- 🥳
 ---------------------------------------
 
-### Run Node container
-docker exec -it ...._app bash
-
-run the basic npm commands
-
-npm run watch
-npm run dev
-npm run prod
 

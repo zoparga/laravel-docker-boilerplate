@@ -4,13 +4,13 @@ services:
 # App php-fpm service
   app:
     # platform: linux/x86_64
-    build:
-      context: ./docker/php
-      args:
-        APP_ENV: ${APP_ENV}
-        PHP_VERSION: ${PHP_VERSION}
-        REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
-   # image: zoparga/php81-aio:1.0
+    #build:
+    #  context: ./docker/php
+    #  args:
+    #    APP_ENV: ${APP_ENV}
+    #    PHP_VERSION: ${PHP_VERSION}
+    #    REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
+    image: zoparga/php81-aio:1.0
     container_name: ${APP_NAME}_app
     restart: unless-stopped
     volumes:
@@ -41,8 +41,8 @@ services:
       - app-network
   
   database:
-#    image: mariadb:${MARIADB_VERSION}
-    image: mariadb:latest
+    image: mysql:${MYSQL_VERSION}
+    #image: mariadb:latest
     command: --max_allowed_packet=2G      # Set max_allowed_packet to 256M (or any other value)
     container_name: ${APP_NAME}_database
     environment:
@@ -77,7 +77,7 @@ services:
 #    ports:
 #        - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
 #    volumes:
-#        - 'sail-meilisearch:/data.ms'
+#        - 'vol-meilisearch:/data.ms'
 #    networks:
 #        - app-network
 #    healthcheck:
@@ -113,7 +113,7 @@ services:
 # Docker Volumes
 volumes:
   database-volume:
-  sail-meilisearch:
+  vol-meilisearch:
  
 # Docker Networks
 networks:
