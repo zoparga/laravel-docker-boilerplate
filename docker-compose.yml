@@ -35,6 +35,7 @@ services:
     ports:
       - ${NGINX_80}:80
       - ${NGINX_443}:443
+      - '5173:5173'
     depends_on:
       - app
     networks:

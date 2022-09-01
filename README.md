@@ -8,12 +8,15 @@ Follow these steps:
 - run `docker-compose up -d`
 - wait a few minutes
 - enter the app container, run `docker exec -it base_app bash`
+
 // ------ FROM THIS STEP YOU ARE INSIDE THE CONTAINER
-- clone the laravel project repository
-- follow the baseic laravel install steps
+- clone the laravel project repository to the current folder
+    - e.g.: git clone [REPOSITORY URL] .
+    - please pay attention to the '.' mark at the end of the previous line
+- follow the basic laravel install steps
     - run `composer install`
     - run `cp .env.example .env`
-    - modify .env file
+    - modify `.env` file
         BE CAREFUL, YOU NEED TO CHANGE THE FOLLOWING LINES (PROVIDED THE PROPER VALUES)
         - APP_URL=http://localhost:8089
         - DB_CONNECTION=mysql
@@ -22,10 +25,11 @@ Follow these steps:
         - DB_DATABASE=database
         - DB_USERNAME=user
         - DB_PASSWORD=password
-    - run `php aritsan migrate --seed`
+    - run `php artisan migrate --seed`
+        - Do you wih to continue? (because you are in production) -> Yes
     - run `php artisan key:generate`
-    - npm install
-    - npm run dev
+    - run `npm install`
+    - run `npm run dev`
 - open browser, type `http://localhost:8089`
 - 🥳✌️
 
