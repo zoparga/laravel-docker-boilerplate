@@ -20,6 +20,7 @@ services:
     env_file: .env
     ports:
       - ${APP_PHP_PORT}:9001
+      - '5173:5173'
     networks:
       - app-network
   
@@ -35,7 +36,6 @@ services:
     ports:
       - ${NGINX_80}:80
       - ${NGINX_443}:443
-      - '5173:5173'
     depends_on:
       - app
     networks:
