@@ -17,7 +17,8 @@ Follow these steps:
     - run `composer install`
     - run `cp .env.example .env`
     - modify `.env` file
-        BE CAREFUL, YOU NEED TO CHANGE THE FOLLOWING LINES (PROVIDED THE PROPER VALUES)
+        - run `nano .env`
+        - BE CAREFUL, YOU NEED TO CHANGE THE FOLLOWING LINES (PROVIDED THE PROPER VALUES)
         - APP_URL=http://localhost:8089
         - DB_CONNECTION=mysql
         - DB_HOST=database
@@ -26,10 +27,11 @@ Follow these steps:
         - DB_USERNAME=user
         - DB_PASSWORD=password
     - run `php artisan migrate --seed`
-        - Do you wih to continue? (because you are in production) -> Yes
     - run `php artisan key:generate`
     - run `npm install`
     - run `npm run dev`
+    - check if `vite.config.js` contains server host, if not, please add that block!
+        - https://laravel-vite.dev/guide/essentials/development.html#changing-the-host
 - open browser, type `http://localhost:8089`
 - 🥳✌️
 
