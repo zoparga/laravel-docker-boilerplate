@@ -1,5 +1,18 @@
 version: "3"
  
+  
+# Docker Volumes
+volumes:
+  database-volume:
+  vol-meilisearch:
+ 
+# Docker Networks
+networks:
+  app-network:
+    driver: bridge
+ 
+
+
 services:
 # App php-fpm service
   app:
@@ -128,15 +141,5 @@ services:
 #       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 #   networks:
 #         - app-network
- 
-# Docker Volumes
-volumes:
-  database-volume:
-  vol-meilisearch:
- 
-# Docker Networks
-networks:
-  app-network:
-    driver: bridge
- 
+
 
