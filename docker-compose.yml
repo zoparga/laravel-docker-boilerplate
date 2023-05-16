@@ -16,7 +16,7 @@ networks:
 services:
 # App php-fpm service
   app:
-    platform: linux/x86_64
+    #platform: linux/x86_64
     build:
      context: ./docker/php
      args:
