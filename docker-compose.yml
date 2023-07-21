@@ -33,7 +33,7 @@ services:
     env_file: .env
     ports:
       - ${APP_PHP_PORT}:9001
-      - '5173:5173'
+#      - '5173:5173'
     networks:
       - app-network
   
