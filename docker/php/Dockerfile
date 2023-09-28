@@ -44,9 +44,8 @@ RUN docker-php-ext-enable pdo_mysql
 
 
 #Added to php-ext-gd requirement
-RUN apk add libpng libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev gd && docker-php-ext-install gd
-
-RUN docker-php-ext-configure gd --with-jpeg
+RUN apk add libpng libpng-dev libjpeg-turbo-dev libwebp-dev freetype-dev zlib-dev libxpm-dev gd && docker-php-ext-install gd
+RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype
 RUN docker-php-ext-install -j$(nproc) gd
 
 RUN docker-php-ext-install exif
@@ -87,15 +86,15 @@ RUN cd /usr/local/etc/php/conf.d/ && \
 #    fi;
 
 # Add webp
-#RUN apk add --no-cache --update libpng-dev libjpeg-turbo-dev giflib-dev tiff-dev autoconf automake make gcc g++ wget && \
-#  wget --no-check-certificate https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.0.0.tar.gz && \
-#  tar -xvzf libwebp-1.0.0.tar.gz && \
-#  cd libwebp-1.0.0 && \
-#  ./configure && \
-#  make && \
-#  make install && \
-#  cd .. && \
-#  rm -rf libwebp-1.0.0 libwebp-1.0.0.tar.gz
+# RUN apk add --no-cache --update libpng-dev libjpeg-turbo-dev giflib-dev tiff-dev autoconf automake make gcc g++ wget && \
+#    wget --no-check-certificate https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.0.0.tar.gz && \
+#    tar -xvzf libwebp-1.0.0.tar.gz && \
+#    cd libwebp-1.0.0 && \
+#    ./configure && \
+#    make && \
+#    make install && \
+#    cd .. && \
+#    rm -rf libwebp-1.0.0 libwebp-1.0.0.tar.gz
 
 # Install PHP Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
