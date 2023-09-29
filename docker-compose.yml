@@ -1,6 +1,5 @@
 version: "3"
- 
-  
+
 # Docker Volumes
 volumes:
   database-volume:
@@ -11,8 +10,6 @@ networks:
   app-network:
     driver: bridge
  
-
-
 services:
 # App php-fpm service
   app:
@@ -85,7 +82,19 @@ services:
       - app
     networks:
       - app-network
-  
+      
+  # MAILHOG SERVICE TO TEST OUTGOING EMAILS
+  mailhog:
+    container_name: ${APP_NAME}_mailhog
+    image:  mailhog/mailhog:latest
+    ports:
+      - ${MAILHOG_PUBLIC_PORT}:8025
+      - ${MAILHOG_MAIL_PORT}:1025
+    restart: unless-stopped
+    depends_on:
+      - app
+    networks:
+      - app-network
 #  meilisearch:
 #    image: 'getmeili/meilisearch:latest'
 #    ports:
@@ -116,19 +125,6 @@ services:
     #     - app-network
     #   depends_on:
     #     - app
-
-
-  # mailhog:
-  #   container_name: ${APP_NAME}_mailhog
-  #   image:  mailhog/mailhog:latest
-  #   ports:
-  #     - ${MAILHOG_PUBLIC_PORT}:8025
-  #     - ${MAILHOG_MAIL_PORT}:1025
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - app
-  #   networks:
-  #     - app-network
  
 #phpmyadmin:
 #   image: phpmyadmin/phpmyadmin
