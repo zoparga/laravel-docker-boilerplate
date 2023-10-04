@@ -55,7 +55,6 @@ RUN docker-php-ext-enable exif
 
 # Added to php-ext-soap requirement
 RUN apk add libxml2-dev && docker-php-ext-install soap
-
 RUN docker-php-ext-enable soap
 
 #install some base extensions

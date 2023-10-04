@@ -13,7 +13,6 @@ networks:
 services:
 # App php-fpm service
   app:
-    #platform: linux/x86_64
     build:
      context: ./docker/php
      args:
@@ -95,6 +94,25 @@ services:
       - app
     networks:
       - app-network
+
+  scheduler:
+    build:
+     context: ./docker/php
+     args:
+       APP_ENV: ${APP_ENV}
+       PHP_VERSION: ${PHP_VERSION}
+       REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
+    #image: zoparga/php81-aio:1.0
+    container_name: ${APP_NAME}_scheduler
+    restart: unless-stopped
+    volumes:
+      - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}:delegated
+    env_file: .env
+    working_dir: ${REMOTE_WORKING_DIR}
+    entrypoint: ["php", "artisan", "schedule:work"]
+    networks:
+      - app-network
+   
 #  meilisearch:
 #    image: 'getmeili/meilisearch:latest'
 #    ports:
