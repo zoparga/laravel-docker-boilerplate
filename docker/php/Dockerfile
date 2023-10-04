@@ -109,7 +109,6 @@ RUN apk --update add tzdata && \
    cp /usr/share/zoneinfo/Europe/Budapest /etc/localtime && echo Europe/Budapest > /etc/timezone && \
    apk del tzdata
 
-
 # RUN apk add libreoffice
 
 # RUN apk --no-cache add msttcorefonts-installer fontconfig && \
@@ -127,6 +126,12 @@ RUN apk --update add tzdata && \
 
 RUN apk add --no-cache ffmpeg
 
+# Install supervisord
+RUN apk add --update supervisor && rm  -rf /tmp/* /var/cache/apk/*
+
+# # Copy local supervisord.conf to the conf.d directory
+COPY --chown=www-data:www-data supervisord.conf /etc/supervisord.conf
+
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . $REMOTE_WORKING_DIR
 
@@ -135,8 +140,6 @@ USER www-data
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
-
-
 
 # Run php-fpm
 CMD ["php-fpm"]

@@ -95,6 +95,26 @@ services:
     networks:
       - app-network
 
+  supervisord:
+    build:
+     context: ./docker/php
+     args:
+       APP_ENV: ${APP_ENV}
+       PHP_VERSION: ${PHP_VERSION}
+       REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
+    #image: zoparga/php81-aio:1.0
+    container_name: ${APP_NAME}_supervisord
+    restart: unless-stopped
+    volumes:
+      - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}:delegated
+    env_file: .env
+    entrypoint: ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
+    depends_on:
+      - app
+    networks:
+      - app-network
+  
+
   scheduler:
     build:
      context: ./docker/php
@@ -110,6 +130,8 @@ services:
     env_file: .env
     working_dir: ${REMOTE_WORKING_DIR}
     entrypoint: ["php", "artisan", "schedule:work"]
+    depends_on:
+      - app
     networks:
       - app-network
    
