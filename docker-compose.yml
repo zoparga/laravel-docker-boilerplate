@@ -26,6 +26,7 @@ services:
       - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}:delegated
       - ./docker/php/config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - ./docker/php/config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:delegated
+      - ./docker/php/config/www.conf:/usr/local/etc/php-fpm.d/www.conf
     env_file: .env
     ports:
       - ${APP_PHP_PORT}:9001
