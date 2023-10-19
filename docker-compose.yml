@@ -57,9 +57,11 @@ services:
   
   
   database:
-    image: mysql:${MYSQL_VERSION}
-    #image: mariadb:latest
-    command: --max_allowed_packet=2G      # Set max_allowed_packet to 256M (or any other value)
+    #image: mysql:${MYSQL_VERSION}
+    build:
+      context: ./docker/mysql
+      args:
+        - MYSQL_VERSION=${MYSQL_VERSION}
     container_name: ${APP_NAME}_database
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -117,6 +119,7 @@ services:
     entrypoint: ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
     depends_on:
       - app
+      - scheduler
     networks:
       - app-network
   
