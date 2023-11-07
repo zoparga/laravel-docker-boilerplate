@@ -64,7 +64,7 @@ Follow these steps:
 When you are in, run the following commands:
 
 - cd /home/mysql-backup
-- mysql -u root -p $MYSQL_DATABASE < SQLFILENAME-YOU-COPIED.sql
+- mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < SQLFILENAME-YOU-COPIED.sql
 - enter root password (default is: root_pass)
 - 🥳
 
