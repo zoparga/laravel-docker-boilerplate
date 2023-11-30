@@ -18,6 +18,7 @@ services:
      args:
        APP_ENV: ${APP_ENV}
        PHP_VERSION: ${PHP_VERSION}
+       NODE_VERSION: ${NODE_VERSION}
        REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
     #image: zoparga/php81-aio:1.0
     container_name: ${APP_NAME}_app
@@ -110,6 +111,7 @@ services:
      args:
        APP_ENV: ${APP_ENV}
        PHP_VERSION: ${PHP_VERSION}
+       NODE_VERSION: ${NODE_VERSION}
        REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
     #image: zoparga/php81-aio:1.0
     container_name: ${APP_NAME}_supervisord
@@ -131,6 +133,7 @@ services:
      args:
        APP_ENV: ${APP_ENV}
        PHP_VERSION: ${PHP_VERSION}
+       NODE_VERSION: ${NODE_VERSION}
        REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
     #image: zoparga/php81-aio:1.0
     container_name: ${APP_NAME}_scheduler
