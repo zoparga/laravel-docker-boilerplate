@@ -1,5 +1,3 @@
-version: "3"
-
 # Docker Volumes
 volumes:
   database-volume:
@@ -35,6 +33,7 @@ services:
       - app-network
     extra_hosts: # <--- this is required for spatie/ray
       - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
+      - "clamav:host-gateway"
 
   
   nginx:
@@ -144,6 +143,8 @@ services:
       - app
     networks:
       - app-network
+
+  
    
 #  meilisearch:
 #    image: 'getmeili/meilisearch:latest'
@@ -187,5 +188,19 @@ services:
 #       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 #   networks:
 #         - app-network
+
+# ClamAV service
+  clamav:
+    platform: linux/amd64
+    image: clamav/clamav:latest
+    container_name: ${APP_NAME}_clamav
+    restart: unless-stopped
+    networks:
+      - app-network
+    volumes:
+      - ./clam-data:/var/lib/clamav
+      - ./clam-logs:/var/log/clamav
+    ports:
+      - "3310:3310"
 
 

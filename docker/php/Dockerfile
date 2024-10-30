@@ -39,9 +39,8 @@ RUN apk update && apk add --no-cache $PHPIZE_DEPS \
    mysql-client
 
 # Install extensions
-RUN docker-php-ext-install pdo pdo_mysql
-RUN docker-php-ext-enable pdo_mysql
-
+RUN docker-php-ext-install pdo pdo_mysql sockets
+RUN docker-php-ext-enable pdo_mysql sockets
 
 #Added to php-ext-gd requirement
 RUN apk add libpng libpng-dev libjpeg-turbo-dev libwebp-dev freetype-dev zlib-dev libxpm-dev gd && docker-php-ext-install gd
