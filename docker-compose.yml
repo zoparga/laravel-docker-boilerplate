@@ -31,11 +31,11 @@ services:
     env_file: .env
     ports:
       - ${APP_PHP_PORT}:9001
-    #      - '5173:5173'
+      - '5173:5173'
     networks:
       - app-network
-  #    extra_hosts: # <--- this is required for spatie/ray
-  #      - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
+    extra_hosts: # <--- this is required for spatie/ray
+      - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
 
   nginx:
     image: nginx:alpine
@@ -53,8 +53,8 @@ services:
       - app
     networks:
       - app-network
-  #    extra_hosts: # <--- this is required for spatie/ray
-  #      - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
+    extra_hosts: # <--- this is required for spatie/ray
+      - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
 
   database:
     #image: mysql:${MYSQL_VERSION}
