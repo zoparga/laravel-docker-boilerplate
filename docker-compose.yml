@@ -4,24 +4,24 @@ version: "3"
 volumes:
   database-volume:
   vol-meilisearch:
- 
+
 # Docker Networks
 networks:
   app-network:
     driver: bridge
- 
+
 services:
-# App php-fpm service
+  # App php-fpm service
   app:
     build:
-     context: ./docker/php
-     args:
-       APP_ENV: ${APP_ENV}
-       PHP_VERSION: ${PHP_VERSION}
-       NODE_VERSION: ${NODE_VERSION}
-       REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
+      context: ./docker/php
+      args:
+        APP_ENV_DOCKER: ${APP_ENV_DOCKER}
+        PHP_VERSION: ${PHP_VERSION}
+        NODE_VERSION: ${NODE_VERSION}
+        REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
     #image: zoparga/php81-aio:1.0
-    container_name: ${APP_NAME}_app
+    container_name: ${APP_NAME_DOCKER}_app
     restart: unless-stopped
     volumes:
       - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}:delegated
@@ -31,16 +31,15 @@ services:
     env_file: .env
     ports:
       - ${APP_PHP_PORT}:9001
-#      - '5173:5173'
+    #      - '5173:5173'
     networks:
       - app-network
-#    extra_hosts: # <--- this is required for spatie/ray
-#      - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
+  #    extra_hosts: # <--- this is required for spatie/ray
+  #      - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
 
-  
   nginx:
     image: nginx:alpine
-    container_name: ${APP_NAME}_nginx
+    container_name: ${APP_NAME_DOCKER}_nginx
     restart: unless-stopped
     volumes:
       - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}:delegated
@@ -54,21 +53,20 @@ services:
       - app
     networks:
       - app-network
-#    extra_hosts: # <--- this is required for spatie/ray
-#      - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
-  
-  
+  #    extra_hosts: # <--- this is required for spatie/ray
+  #      - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
+
   database:
     #image: mysql:${MYSQL_VERSION}
     build:
       context: ./docker/mysql
       args:
         - MYSQL_VERSION=${MYSQL_VERSION}
-    container_name: ${APP_NAME}_database
+    container_name: ${APP_NAME_DOCKER}_database
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - ${MYSQL_PORT}:3306
@@ -80,10 +78,10 @@ services:
       - app
     networks:
       - app-network
-  
+
   redis:
     image: redis:${REDIS_VERSION}
-    container_name: ${APP_NAME}_redis
+    container_name: ${APP_NAME_DOCKER}_redis
     expose:
       - 6379
     restart: unless-stopped
@@ -91,11 +89,11 @@ services:
       - app
     networks:
       - app-network
-      
+
   # MAILHOG SERVICE TO TEST OUTGOING EMAILS
   mailhog:
-    container_name: ${APP_NAME}_mailhog
-    image:  mailhog/mailhog:latest
+    container_name: ${APP_NAME_DOCKER}_mailhog
+    image: mailhog/mailhog:latest
     ports:
       - ${MAILHOG_PUBLIC_PORT}:8025
       - ${MAILHOG_MAIL_PORT}:1025
@@ -107,36 +105,36 @@ services:
 
   supervisord:
     build:
-     context: ./docker/php
-     args:
-       APP_ENV: ${APP_ENV}
-       PHP_VERSION: ${PHP_VERSION}
-       NODE_VERSION: ${NODE_VERSION}
-       REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
+      context: ./docker/php
+      args:
+        APP_ENV_DOCKER: ${APP_ENV_DOCKER}
+        PHP_VERSION: ${PHP_VERSION}
+        NODE_VERSION: ${NODE_VERSION}
+        REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
     #image: zoparga/php81-aio:1.0
-    container_name: ${APP_NAME}_supervisord
+    container_name: ${APP_NAME_DOCKER}_supervisord
     restart: unless-stopped
     volumes:
       - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}:delegated
     env_file: .env
-    entrypoint: ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
+    entrypoint:
+      ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
     depends_on:
       - app
       - scheduler
     networks:
       - app-network
-  
 
   scheduler:
     build:
-     context: ./docker/php
-     args:
-       APP_ENV: ${APP_ENV}
-       PHP_VERSION: ${PHP_VERSION}
-       NODE_VERSION: ${NODE_VERSION}
-       REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
+      context: ./docker/php
+      args:
+        APP_ENV_DOCKER: ${APP_ENV_DOCKER}
+        PHP_VERSION: ${PHP_VERSION}
+        NODE_VERSION: ${NODE_VERSION}
+        REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
     #image: zoparga/php81-aio:1.0
-    container_name: ${APP_NAME}_scheduler
+    container_name: ${APP_NAME_DOCKER}_scheduler
     restart: unless-stopped
     volumes:
       - ${LOCAL_WORKING_DIR}:${REMOTE_WORKING_DIR}:delegated
@@ -147,7 +145,6 @@ services:
       - app
     networks:
       - app-network
-   
 #  meilisearch:
 #    image: 'getmeili/meilisearch:latest'
 #    ports:
@@ -160,35 +157,33 @@ services:
 #        test: ["CMD", "wget", "--no-verbose", "--spider",  "http://localhost:7700/health"]
 #        retries: 3
 #        timeout: 5s
-  
 
-# Soketi 
-    # soketi:
-    #   image: quay.io/soketi/soketi:1.0-16-alpine
-    #   container_name: ${APP_NAME}_soketi
-    #   environment:
-    #     - DEBUG=${SOKETI_DEBUG}
-    #     - SOKETI_DEBUG=${SOKETI_DEBUG}
-    #     - SOKETI_DEFAULT_APP_ID=${SOKETI_DEFAULT_APP_ID}
-    #     - SOKETI_DEFAULT_APP_KEY=${SOKETI_DEFAULT_APP_KEY}
-    #     - SOKETI_DEFAULT_APP_SECRET=${SOKETI_DEFAULT_APP_SECRET}
-    #   ports:
-    #     - "${SOKETI_PORT}:6001"
-    #   networks:
-    #     - app-network
-    #   depends_on:
-    #     - app
- 
+# Soketi
+# soketi:
+#   image: quay.io/soketi/soketi:1.0-16-alpine
+#   container_name: ${APP_NAME_DOCKER}_soketi
+#   environment:
+#     - DEBUG=${SOKETI_DEBUG}
+#     - SOKETI_DEBUG=${SOKETI_DEBUG}
+#     - SOKETI_DEFAULT_APP_ID=${SOKETI_DEFAULT_APP_ID}
+#     - SOKETI_DEFAULT_APP_KEY=${SOKETI_DEFAULT_APP_KEY}
+#     - SOKETI_DEFAULT_APP_SECRET=${SOKETI_DEFAULT_APP_SECRET}
+#   ports:
+#     - "${SOKETI_PORT}:6001"
+#   networks:
+#     - app-network
+#   depends_on:
+#     - app
+
 #phpmyadmin:
 #   image: phpmyadmin/phpmyadmin
 #   ports:
 #       - 8289:80
 #   environment:
 #       PMA_HOST: database
-#       MYSQL_USER: ${MYSQL_PASSWORD}
-#       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#       DB_USERNAME: ${DB_PASSWORD}
+#       DB_PASSWORD: ${DB_PASSWORD}
 #       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 #   networks:
 #         - app-network
-
 

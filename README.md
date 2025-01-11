@@ -49,9 +49,9 @@ Follow these steps:
 
 # MySQL creditentials
 
-- MYSQL_DATABASE=database
-- MYSQL_USER=user
-- MYSQL_PASSWORD=password
+- DB_DATABASE=database
+- DB_USERNAME=user
+- DB_PASSWORD=password
 - MYSQL_ROOT_PASSWORD=root_pass
 
 ---
@@ -59,12 +59,12 @@ Follow these steps:
 ### TO RESTORE MYSQL DB IN CONTAINER MYSQL
 
 - place mysql backup (.sql ) file to ./mysql-backup folder
-- docker exec -it [APP_NAME]\_database bash
+- docker exec -it [APP_NAME_DOCKER]\_database bash
 
 When you are in, run the following commands:
 
 - cd /home/mysql-backup
-- mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < SQLFILENAME-YOU-COPIED.sql
+- mysql -u root -p$MYSQL_ROOT_PASSWORD $DB_DATABASE < SQLFILENAME-YOU-COPIED.sql
 - 🥳
 
 ---

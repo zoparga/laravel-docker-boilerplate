@@ -3,7 +3,7 @@ ARG PHP_VERSION
 # Node Version environment variable
 ARG NODE_VERSION
 # Application environment variable
-ARG APP_ENV
+ARG APP_ENV_DOCKER
 # Remote working directory environment variable
 ARG REMOTE_WORKING_DIR
 

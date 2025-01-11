@@ -130,20 +130,20 @@ EOF
 			#mysql+=( -p"${MYSQL_ROOT_PASSWORD}" )
 		fi
 
-		if [ "$MYSQL_DATABASE" ]; then
-			echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` ;" | "${mysql[@]}"
-			mysql+=( "$MYSQL_DATABASE" )
+		if [ "$DB_DATABASE" ]; then
+			echo "CREATE DATABASE IF NOT EXISTS \`$DB_DATABASE\` ;" | "${mysql[@]}"
+			mysql+=( "$DB_DATABASE" )
 		fi
 
-		if [ "$MYSQL_USER" -a "$MYSQL_PASSWORD" ]; then
-			echo "CREATE USER '"$MYSQL_USER"'@'%' IDENTIFIED BY '"$MYSQL_PASSWORD"' ;" | "${mysql[@]}"
+		if [ "$DB_USERNAME" -a "$DB_PASSWORD" ]; then
+			echo "CREATE USER '"$DB_USERNAME"'@'%' IDENTIFIED BY '"$DB_PASSWORD"' ;" | "${mysql[@]}"
 
-			if [ "$MYSQL_DATABASE" ]; then
-				echo "GRANT ALL ON \`"$MYSQL_DATABASE"\`.* TO '"$MYSQL_USER"'@'%' ;" | "${mysql[@]}"
+			if [ "$DB_DATABASE" ]; then
+				echo "GRANT ALL ON \`"$DB_DATABASE"\`.* TO '"$DB_USERNAME"'@'%' ;" | "${mysql[@]}"
 			fi
 
-		elif [ "$MYSQL_USER" -a ! "$MYSQL_PASSWORD" -o ! "$MYSQL_USER" -a "$MYSQL_PASSWORD" ]; then
-			echo '[Entrypoint] Not creating mysql user. MYSQL_USER and MYSQL_PASSWORD must be specified to create a mysql user.'
+		elif [ "$DB_USERNAME" -a ! "$DB_PASSWORD" -o ! "$DB_USERNAME" -a "$DB_PASSWORD" ]; then
+			echo '[Entrypoint] Not creating mysql user. DB_USERNAME and DB_PASSWORD must be specified to create a mysql user.'
 		fi
 		echo
 		for f in /docker-entrypoint-initdb.d/*; do
