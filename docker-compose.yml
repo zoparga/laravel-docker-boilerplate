@@ -9,6 +9,8 @@ volumes:
 networks:
   app-network:
     driver: bridge
+  proxy:
+    external: true
 
 services:
   # App php-fpm service
@@ -47,12 +49,13 @@ services:
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/:delegated
       - ./docker/nginx/ssl/:/etc/nginx/ssl/:delegated
     ports:
-      - ${NGINX_80}:80
-      - ${NGINX_443}:443
+      - 127.0.0.1:${NGINX_80}:80
+      # - 127.0.0.1:${NGINX_443}:443
     depends_on:
       - app
     networks:
       - app-network
+      - proxy
     extra_hosts: # <--- this is required for spatie/ray
       - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
 
