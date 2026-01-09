@@ -10,12 +10,16 @@ ARG REMOTE_WORKING_DIR
 FROM node:${NODE_VERSION}-alpine AS node
 
 # PHP Version alpine image to install based on the PHP_VERSION environment variable
-FROM php:$PHP_VERSION-fpm-alpine
+FROM php:${PHP_VERSION}-fpm-alpine
 
-COPY --from=node /usr/lib /usr/lib
-COPY --from=node /usr/local/lib /usr/local/lib
-COPY --from=node /usr/local/include /usr/local/include
-COPY --from=node /usr/local/bin /usr/local/bin
+# Install OpenSSL first to ensure SSL libraries are available before any operations
+RUN apk add --no-cache openssl ca-certificates
+
+# Copy Node binaries selectively (avoid overwriting system libraries like SSL)
+COPY --from=node /usr/local/bin/node /usr/local/bin/node
+COPY --from=node /usr/local/bin/npm /usr/local/bin/npm
+COPY --from=node /usr/local/bin/npx /usr/local/bin/npx
+COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 
 # Install Additional dependencies
 RUN apk update && apk add --no-cache \
