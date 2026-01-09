@@ -1,13 +1,13 @@
-# PHP Version environment variable
-ARG PHP_VERSION
-# Node Version environment variable
+# Node Version environment variable (declared before first FROM)
 ARG NODE_VERSION
+FROM node:${NODE_VERSION}-alpine AS node
+
+# PHP Version environment variable (declared before second FROM)
+ARG PHP_VERSION
 # Application environment variable
 ARG APP_ENV_DOCKER
 # Remote working directory environment variable
 ARG REMOTE_WORKING_DIR
-
-FROM node:${NODE_VERSION}-alpine AS node
 
 # PHP Version alpine image to install based on the PHP_VERSION environment variable
 FROM php:${PHP_VERSION}-fpm-alpine
