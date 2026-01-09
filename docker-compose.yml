@@ -58,11 +58,11 @@ services:
       - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
 
   database:
-    #image: mysql:${MYSQL_VERSION}
-    build:
-      context: ./docker/mysql
-      args:
-        - MYSQL_VERSION=${MYSQL_VERSION}
+    image: mysql:${MYSQL_VERSION}
+    # build:
+    #   context: ./docker/mysql
+    #   args:
+    #     - MYSQL_VERSION=${MYSQL_VERSION}
     container_name: ${APP_NAME_DOCKER}_database
     environment:
       DB_DATABASE: ${DB_DATABASE}

@@ -91,6 +91,9 @@ RUN apk --update add tzdata && \
 # Remove Cache
 RUN rm -rf /tmp/* /var/cache/apk/*
 
+# Copy MySQL client config to disable SSL (needed for mysqldump with MySQL 8.0+)
+COPY config/my.cnf /etc/my.cnf
+
 # # Copy local supervisord.conf to the conf.d directory
 COPY --chown=www-data:www-data supervisord.conf /etc/supervisord.conf
 
