@@ -21,75 +21,58 @@ COPY --from=node /usr/local/bin/npm /usr/local/bin/npm
 COPY --from=node /usr/local/bin/npx /usr/local/bin/npx
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 
-# Install Additional dependencies
-RUN apk update && apk add --no-cache \
+# Install Additional dependencies (build tools and runtime deps separately for better caching)
+RUN apk update && apk add --no-cache --virtual .build-deps \
    build-base \
-   shadow \
-   nano \
-   curl \
    gcc \
-   git \
-   bash \
-   graphviz \
+   autoconf \
+   g++ \
+   libtool \
+   make \
+   pcre-dev \
    libzip-dev \
-   zip \
-   icu-dev \
-   icu-libs \
-   mysql-client \
-   libpng \
    libpng-dev \
    libjpeg-turbo-dev \
    libwebp-dev \
    freetype-dev \
    zlib-dev \
    libxpm-dev \
-   gd \
-   autoconf \
-   g++ \
    imagemagick-dev \
-   libtool \
-   make \
-   pcre-dev \
+   libxml2-dev \
+   icu-dev && \
+   apk add --no-cache \
+   shadow \
+   nano \
+   curl \
+   git \
+   bash \
+   graphviz \
+   zip \
+   icu-libs \
+   mysql-client \
+   libpng \
+   gd \
    supervisor \
-   ffmpeg \
-   libxml2-dev
+   ffmpeg
 
+# Install PHP extensions (combined for better caching)
+RUN docker-php-ext-install pdo pdo_mysql && \
+   docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype && \
+   docker-php-ext-install -j$(nproc) gd exif soap zip intl && \
+   pecl install imagick && \
+   docker-php-ext-enable pdo_mysql imagick exif soap zip intl && \
+   apk del .build-deps
 
-# Install extensions
-RUN docker-php-ext-install pdo pdo_mysql
-RUN docker-php-ext-enable pdo_mysql
-RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype
-RUN docker-php-ext-install -j$(nproc) gd
-RUN pecl install imagick
-RUN docker-php-ext-enable imagick
-RUN docker-php-ext-install exif
-RUN docker-php-ext-enable exif
-RUN docker-php-ext-install soap
-RUN docker-php-ext-enable soap
-RUN docker-php-ext-install zip
-RUN docker-php-ext-enable zip
-RUN docker-php-ext-install intl
-RUN docker-php-ext-enable intl
-
-RUN apk del autoconf g++ libtool make pcre-dev
-
-# RUN php memory limit to -1
-RUN cd /usr/local/etc/php/conf.d/ && \
-   echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
-
-# Install PHP Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Add UID '1000' to www-data
-RUN apk add shadow && usermod -u 1000 www-data && groupmod -g 1000 www-data
-
-# Set proper timezone
-RUN apk --update add tzdata && \
-   cp /usr/share/zoneinfo/Europe/Budapest /etc/localtime && echo Europe/Budapest > /etc/timezone && \
-   apk del tzdata
-
-# Remove Cache
-RUN rm -rf /tmp/* /var/cache/apk/*
+# Configure PHP and install Composer (combined for efficiency)
+RUN echo 'memory_limit = -1' > /usr/local/etc/php/conf.d/docker-php-memlimit.ini && \
+   curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+   apk --update add --no-cache tzdata && \
+   cp /usr/share/zoneinfo/Europe/Budapest /etc/localtime && \
+   echo Europe/Budapest > /etc/timezone && \
+   apk del tzdata && \
+   usermod -u 1000 www-data && \
+   groupmod -g 1000 www-data && \
+   rm -rf /tmp/* /var/cache/apk/*
 
 # Copy MySQL client config to disable SSL (needed for mysqldump with MySQL 8.0+)
 COPY config/my.cnf /etc/my.cnf

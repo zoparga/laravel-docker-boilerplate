@@ -11,8 +11,8 @@ networks:
     external: true
 
 services:
-  # App php-fpm service
-  app:
+  # Base PHP image - built once and reused by other services
+  php-base:
     build:
       context: ./docker/php
       args:
@@ -20,7 +20,17 @@ services:
         PHP_VERSION: ${PHP_VERSION}
         NODE_VERSION: ${NODE_VERSION}
         REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
-    #image: zoparga/php81-aio:1.0
+      # Use BuildKit cache for faster rebuilds
+      cache_from:
+        - ${APP_NAME_DOCKER}_php:latest
+    image: ${APP_NAME_DOCKER}_php:latest
+    # Don't start this service, it's just for building the image
+    profiles:
+      - build-only
+
+  # App php-fpm service
+  app:
+    image: ${APP_NAME_DOCKER}_php:latest
     container_name: ${APP_NAME_DOCKER}_app
     restart: unless-stopped
     volumes:
@@ -36,6 +46,15 @@ services:
       - app-network
     extra_hosts: # <--- this is required for spatie/ray
       - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
+    healthcheck:
+      test: ["CMD-SHELL", "test -S /var/run/php-fpm.sock || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      php-base:
+        condition: service_completed_successfully
 
   nginx:
     image: nginx:alpine
@@ -49,8 +68,15 @@ services:
     ports:
       - 127.0.0.1:${NGINX_80}:80
       # - 127.0.0.1:${NGINX_443}:443
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     depends_on:
-      - app
+      app:
+        condition: service_healthy
     networks:
       - app-network
       - proxy
@@ -76,6 +102,12 @@ services:
     volumes:
       - ./mysqldata:/var/lib/mysql:delegated
       - ./mysql-backup:/home/mysql-backup:delegated
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     depends_on:
       - app
     networks:
@@ -87,6 +119,11 @@ services:
     expose:
       - 6379
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     depends_on:
       - app
     networks:
@@ -106,14 +143,7 @@ services:
       - app-network
 
   supervisord:
-    build:
-      context: ./docker/php
-      args:
-        APP_ENV_DOCKER: ${APP_ENV_DOCKER}
-        PHP_VERSION: ${PHP_VERSION}
-        NODE_VERSION: ${NODE_VERSION}
-        REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
-    #image: zoparga/php81-aio:1.0
+    image: ${APP_NAME_DOCKER}_php:latest
     container_name: ${APP_NAME_DOCKER}_supervisord
     restart: unless-stopped
     volumes:
@@ -122,20 +152,14 @@ services:
     entrypoint:
       ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
     depends_on:
+      - php-base
       - app
       - scheduler
     networks:
       - app-network
 
   scheduler:
-    build:
-      context: ./docker/php
-      args:
-        APP_ENV_DOCKER: ${APP_ENV_DOCKER}
-        PHP_VERSION: ${PHP_VERSION}
-        NODE_VERSION: ${NODE_VERSION}
-        REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
-    #image: zoparga/php81-aio:1.0
+    image: ${APP_NAME_DOCKER}_php:latest
     container_name: ${APP_NAME_DOCKER}_scheduler
     restart: unless-stopped
     volumes:
@@ -144,6 +168,7 @@ services:
     working_dir: ${REMOTE_WORKING_DIR}
     entrypoint: ["php", "artisan", "schedule:work"]
     depends_on:
+      - php-base
       - app
     networks:
       - app-network

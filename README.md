@@ -5,6 +5,7 @@ Follow these steps:
 - clone this repository
 - enter this project directory
 - run `cp .env.example .env`
+- run `docker-compose build php-base`
 - run `docker-compose up -d`
 - wait a few minutes
 - enter the app container, run `docker exec -it base_app bash`
