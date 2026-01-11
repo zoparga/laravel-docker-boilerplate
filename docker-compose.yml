@@ -58,17 +58,18 @@ services:
       - "host.docker.internal:host-gateway" # <--- this is required spatie/ray
 
   database:
-    image: mysql:${MYSQL_VERSION}
+    #image: mysql:${MYSQL_VERSION}
+    image: mariadb:${MARIADB_VERSION}
     # build:
     #   context: ./docker/mysql
     #   args:
     #     - MYSQL_VERSION=${MYSQL_VERSION}
     container_name: ${APP_NAME_DOCKER}_database
     environment:
-      DB_DATABASE: ${DB_DATABASE}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - ${MYSQL_PORT}:3306
     restart: unless-stopped
